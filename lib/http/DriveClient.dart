@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter_app/dto/drive/AllFilesDto.dart';
 import 'package:flutter_app/exception/ForbiddenException.dart';
 import 'package:flutter_app/exception/UnauthorizedException.dart';
 import 'package:flutter_app/static/HttpStatic.dart';
@@ -8,7 +11,7 @@ import '../static/AppSettings.dart';
 
 const String baseUrl = '${HttpStatic.url}:${HttpStatic.port}/drive';
 
-Future<http.Response> getAll({int limit = 10, String? pageToken, String? folderId}) async {
+Future<AllFilesDto> getAll({int limit = 10, String? pageToken, String? folderId}) async {
   final path = folderId == null ? baseUrl : "$baseUrl/$folderId";
   final url = Uri.parse(path).replace(queryParameters: {
     'limit': '$limit',
@@ -23,7 +26,7 @@ Future<http.Response> getAll({int limit = 10, String? pageToken, String? folderI
   );
 
   if (response.statusCode == 200) {
-    return response;
+    return AllFilesDto.fromJson(jsonDecode(response.body));
   } else if (response.statusCode == 401) {
     Settings.token = null;
     throw UnauthorizedException();

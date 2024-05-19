@@ -25,4 +25,15 @@ class CapabilitiesDto {
   String toJsonString() {
     return jsonEncode(toJson());
   }
+
+  factory CapabilitiesDto.fromJson(Map<String, dynamic> json) {
+    var pathList = json['paths'] as List;
+    List<PathDto> paths = pathList.map((i) => PathDto.fromJson(i)).toList();
+
+    return CapabilitiesDto(
+      uuid: json['uuid'],
+      title: json['title'],
+      paths: paths,
+    );
+  }
 }

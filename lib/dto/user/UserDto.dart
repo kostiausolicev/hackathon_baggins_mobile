@@ -36,4 +36,16 @@ class UserDto {
   String toJsonString() {
     return jsonEncode(toJson());
   }
+
+  factory UserDto.fromJson(Map<String, dynamic> json) {
+    return UserDto(
+      uuid: json['uuid'],
+      email: json['email'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      isConform: json['isConform'],
+      capabilities: CapabilitiesDto.fromJson(json['capabilities']),
+      role: json['role'],
+    );
+  }
 }

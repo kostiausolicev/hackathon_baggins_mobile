@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_app/dto/user/UserDto.dart';
 import 'package:http/http.dart' as http;
 
 import '../dto/user/AuthUserDto.dart';
@@ -12,7 +13,7 @@ import '../static/AppSettings.dart';
 const String baseUrl = 'http://yourapiurl.com/users';
 
 class UserClient {
-  Future<http.Response> getAll({int limit = 10, int page = 0}) async {
+  Future<List<UserDto>> getAll({int limit = 10, int page = 0}) async {
     final url = Uri.parse(baseUrl).replace(queryParameters: {
       'limit': '$limit',
       'page': '$page',
@@ -27,7 +28,8 @@ class UserClient {
     );
 
     if (response.statusCode == 200) {
-      return response;
+      List<dynamic> jsonList = jsonDecode(response.body);
+      return jsonList.map((json) => UserDto.fromJson(json)).toList();
     } else if (response.statusCode == 401) {
       Settings.token = null;
       throw UnauthorizedException();
@@ -38,7 +40,7 @@ class UserClient {
     }
   }
 
-  Future<http.Response> getByUuid(String uuid) async {
+  Future<UserDto> getByUuid(String uuid) async {
     final url = Uri.parse('$baseUrl/$uuid');
     final token = Settings.token ?? (throw Exception('Token not found'));
 
@@ -50,7 +52,7 @@ class UserClient {
     );
 
     if (response.statusCode == 200) {
-      return response;
+      return UserDto.fromJson(jsonDecode(response.body));
     } else if (response.statusCode == 401) {
       Settings.token = null;
       throw UnauthorizedException();

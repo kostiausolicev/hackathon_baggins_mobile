@@ -19,4 +19,11 @@ class PathDto {
   String toJsonString() {
     return jsonEncode(toJson());
   }
+
+  factory PathDto.fromJson(Map<String, dynamic> json) {
+    return PathDto(
+      id: json['id'],
+      name: json['name'],
+    );
+  }
 }
