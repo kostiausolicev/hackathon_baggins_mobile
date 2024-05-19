@@ -86,21 +86,6 @@ class SignUpAccSecond extends StatelessWidget {
                   child: TextField(
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Отчество (если есть)',
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                Container(
-                  width: MediaQuery.of(context).size.width - 48,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
                       hintText: 'Пароль',
                     ),
                   ),
