@@ -1,5 +1,5 @@
 
 class HttpStatic {
-  static String url = "";
-  static int port = 8080;
+  static const String url = "http://localhost";
+  static const int port = 8080;
 }
