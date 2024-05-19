@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginAccFirst extends StatelessWidget {
   final PageController pageController;
+  final TextEditingController _emailController = TextEditingController();
 
   LoginAccFirst({required this.pageController});
 
@@ -53,7 +54,8 @@ class LoginAccFirst extends StatelessWidget {
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'email@gmail.com',
                   ),
@@ -64,11 +66,13 @@ class LoginAccFirst extends StatelessWidget {
                 width: MediaQuery.of(context).size.width - 48,
                 child: ElevatedButton(
                   onPressed: () {
-                    pageController.animateToPage(
-                      3, // Индекс страницы, на которую нужно перейти
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                    );
+                    if (_emailController.text.isNotEmpty) {
+                      pageController.animateToPage(
+                        3, // Индекс страницы, на которую нужно перейти
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                      );
+                    }
                   },
                   child: Text('Продолжить'),
                   style: ElevatedButton.styleFrom(

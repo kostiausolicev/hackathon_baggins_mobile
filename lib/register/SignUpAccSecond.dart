@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/dto/user/CreateUserDto.dart';
 import 'package:flutter_app/static/UserClass.dart';
 
-import 'http/UserClient.dart';
+import '../http/UserClient.dart';
 
 class SignUpAccSecond extends StatefulWidget {
   final PageController pageController;
