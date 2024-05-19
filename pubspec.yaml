@@ -68,6 +68,11 @@ flutter:
     - assets/images/background 3.png
     - assets/images/background 4.png
     - assets/images/google_icon.svg
+    - assets/images/file_icon.svg
+    - assets/images/folder_icon.svg
+    - assets/images/google_docs_icon.svg
+    - assets/images/google_sheets_icon.svg
+    - assets/images/presentation_icon.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
