@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'SignUpAccFirst.dart';
+import 'SignUpAccSecond.dart';
+import 'LoginAccFirst.dart';
+import 'LoginAccSecond.dart';
 
 class LoginAccFirst extends StatelessWidget {
   @override
@@ -11,7 +15,7 @@ class LoginAccFirst extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background.png'), // путь к вашему изображению
+            image: AssetImage('assets/images/background 3.png'), // путь к вашему изображению
             fit: BoxFit.cover,
           ),
         ),
@@ -22,13 +26,14 @@ class LoginAccFirst extends StatelessWidget {
             children: [
               Text(
                 'BAGGINS DRIVE',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               SizedBox(height: 120),
               Text(
-                'Войти в свой аккаунт',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
+                'Войти в аккаунт',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
               ),
+              SizedBox(height: 10),
               Text(
                   'Введите gmail, чтобы войти в аккаунт',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.white),
@@ -52,7 +57,12 @@ class LoginAccFirst extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width - 48,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginAccSecond()),
+                    );
+                  },
                   child: Text('Продолжить'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black, // Цвет фона кнопки
@@ -114,7 +124,11 @@ class LoginAccFirst extends StatelessWidget {
                 width: MediaQuery.of(context).size.width - 48,
                 child: ElevatedButton.icon(
                   onPressed: () {},
-                  icon: Image.asset('assets/images/google_icon.png', width: 20, height: 20),
+                  icon: SvgPicture.asset(
+                    'assets/images/google_icon.svg', // путь к вашему файлу SVG
+                    width: 24, // задайте желаемую ширину иконки
+                    height: 24, // задайте желаемую высоту иконки
+                  ),
                   label: Text('Google'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -135,7 +149,7 @@ class LoginAccFirst extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(
                       text: 'Условиями использования',
-                      style: TextStyle(color: Color(0xFFA82230), decoration: TextDecoration.underline),
+                      style: TextStyle(color: Color(0xFFA82230)),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           // Действие при нажатии на ссылку Правилами Обслуживания
@@ -145,7 +159,7 @@ class LoginAccFirst extends StatelessWidget {
                     TextSpan(text: ' и '),
                     TextSpan(
                       text: 'Политикой конфиденциальности',
-                      style: TextStyle(color: Color(0xFFA82230), decoration: TextDecoration.underline),
+                      style: TextStyle(color: Color(0xFFA82230)),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           // Действие при нажатии на ссылку Политикой Приватности

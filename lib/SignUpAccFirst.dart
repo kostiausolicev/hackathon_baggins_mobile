@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'SignUpAccFirst.dart';
 import 'SignUpAccSecond.dart';
@@ -10,55 +13,169 @@ class SignUpAccFirst extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body:
+      Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background 1.png'), // путь к вашему изображению
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Создать аккаунт',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              'BAGGINS DRIVE',
+              style: TextStyle(fontSize:36, fontWeight: FontWeight.bold, color: Colors.white),
             ),
-            SizedBox(height: 20),
-            Text('Введите свой gmail, чтобы создать аккаунт'),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'email@gmail.com',
+            SizedBox(height: 120),
+            Text(
+              'Создать аккаунт',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Введите свой gmail, чтобы создать аккаунт',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.white),
+            ),
+            SizedBox(height: 24),
+            Container(
+              width: MediaQuery.of(context).size.width - 48,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'email@gmail.com',
+                ),
               ),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignUpAccSecond()),
-                );
-              },
-              child: Text('Зарегистрироваться с gmail'),
+            SizedBox(height: 16),
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 48,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUpAccSecond()),
+                  );
+                },
+                child: Text('Зарегистрироваться с gmail'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black, // Цвет фона кнопки
+                  foregroundColor: Colors.white, // Цвет текста кнопки
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                ),
+              ),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginAccFirst()),
-                );
-              },
-              child: Text('У меня уже есть аккаунт'),
+            SizedBox(height: 16),
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 48,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginAccFirst()),
+                  );
+                },
+                child: Text('У меня уже есть аккаунт'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black, // Цвет фона кнопки
+                  foregroundColor: Colors.white, // Цвет текста кнопки
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                ),
+              ),
             ),
-            Divider(),
-            ElevatedButton.icon(
-              onPressed: () {},
-              icon: Icon(Icons.login),
-              label: Text('Google'),
+            SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: Divider(
+                    color: Colors.white,
+                    thickness: 1,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    'или продолжить с',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                Expanded(
+                  child: Divider(
+                    color: Colors.white,
+                    thickness: 1,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 20),
-            Text(
-              'Нажимая продолжить, Вы соглашаетесь с Правилами Обслуживания и Политикой Приватности',
+            SizedBox(height: 24),
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 48,
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: SvgPicture.asset(
+                  'assets/images/google_icon.svg', // путь к вашему файлу SVG
+                  width: 24, // задайте желаемую ширину иконки
+                  height: 24, // задайте желаемую высоту иконки
+                ),
+                label: Text('Google'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    side: BorderSide(color: Colors.black),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                ),
+              ),
+            ),
+            SizedBox(height: 24),
+            Text.rich(
+              TextSpan(
+                text: 'Нажимая продолжить, Вы соглашаетесь с ',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.white),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Условиями использования',
+                    style: TextStyle(color: Color(0xFFA82230)),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        // Действие при нажатии на ссылку Правилами Обслуживания
+                        launchUrl(Uri.parse('https://policies.google.com/terms?hl=ru'));
+                      },
+                  ),
+                  TextSpan(text: ' и '),
+                  TextSpan(
+                    text: 'Политикой конфиденциальности',
+                    style: TextStyle(color: Color(0xFFA82230)),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        // Действие при нажатии на ссылку Политикой Приватности
+                        launchUrl(Uri.parse('https://policies.google.com/privacy?hl=ru'));
+                      },
+                  ),
+                ],
+              ),
               textAlign: TextAlign.center,
             ),
           ],
         ),
       ),
+    )
     );
   }
 }
