@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter_app/dto/capabilities/CapabilitiesDto.dart';
 
@@ -8,7 +7,7 @@ class UserDto {
   String email;
   String firstName;
   String lastName;
-  Bool isConform;
+  bool isConform;
   CapabilitiesDto capabilities; // Доступы
   String role; // Роль USER/ADMIN
 

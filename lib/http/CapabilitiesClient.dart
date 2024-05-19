@@ -7,8 +7,9 @@ import '../dto/capabilities/UpdateCapabilitiesDto.dart';
 import '../exception/ForbiddenException.dart';
 import '../exception/UnauthorizedException.dart';
 import '../static/AppSettings.dart';
+import '../static/HttpStatic.dart';
 
-const String baseUrl = 'http://yourapiurl.com/capabilities';
+const String baseUrl = '${HttpStatic.url}:${HttpStatic.port}/capabilities';
 
 Future<List<CapabilitiesDto>> getAll() async {
   final url = Uri.parse(baseUrl);
