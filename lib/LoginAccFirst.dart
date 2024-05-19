@@ -3,23 +3,29 @@ import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'SignUpAccFirst.dart';
-import 'SignUpAccSecond.dart';
-import 'LoginAccFirst.dart';
-import 'LoginAccSecond.dart';
-
 class LoginAccFirst extends StatelessWidget {
+  final PageController pageController;
+
+  LoginAccFirst({required this.pageController});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body:
+      Stack(
+        children: [
+        Container(
+        color: Colors.black,
+      ),
+      Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/background 3.png'), // путь к вашему изображению
-            fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
           ),
         ),
-        child: Padding(
+      ),
+        Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -58,9 +64,10 @@ class LoginAccFirst extends StatelessWidget {
                 width: MediaQuery.of(context).size.width - 48,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginAccSecond()),
+                    pageController.animateToPage(
+                      3, // Индекс страницы, на которую нужно перейти
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
                     );
                   },
                   child: Text('Продолжить'),
@@ -79,9 +86,10 @@ class LoginAccFirst extends StatelessWidget {
                 width: MediaQuery.of(context).size.width - 48,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpAccFirst()),
+                    pageController.animateToPage(
+                      0, // Индекс страницы, на которую нужно перейти
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
                     );
                   },
                   child: Text('У меня нет аккаунта'),
@@ -173,7 +181,7 @@ class LoginAccFirst extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      ]),
     );
   }
 }

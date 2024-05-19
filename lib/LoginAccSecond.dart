@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 
-import 'SignUpAccFirst.dart';
-import 'SignUpAccSecond.dart';
-import 'LoginAccFirst.dart';
-import 'LoginAccSecond.dart';
 
 class LoginAccSecond extends StatelessWidget {
+  final PageController pageController;
+
+  LoginAccSecond({required this.pageController});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body:
+      Stack(
+          children: [
+        Container(
+          color: Colors.black,
+        ),
+        Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/background 4.png'), // путь к вашему изображению
-            fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
+           ),
           ),
         ),
-        child: Padding(
+        Padding(
           padding: const EdgeInsets.all(16.0),
           child: Align(
             alignment: Alignment.center,
@@ -75,6 +82,7 @@ class LoginAccSecond extends StatelessWidget {
             ),
           ),
         ),
+      ]
       ),
     );
   }
