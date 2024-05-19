@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter_app/dto/capabilities/CapabilitiesDto.dart';
 
@@ -8,7 +7,7 @@ class UserDto {
   String email;
   String firstName;
   String lastName;
-  Bool isConform;
+  bool isConform;
   CapabilitiesDto capabilities; // Доступы
   String role; // Роль USER/ADMIN
 
@@ -35,5 +34,17 @@ class UserDto {
 
   String toJsonString() {
     return jsonEncode(toJson());
+  }
+
+  factory UserDto.fromJson(Map<String, dynamic> json) {
+    return UserDto(
+      uuid: json['uuid'],
+      email: json['email'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      isConform: json['isConform'],
+      capabilities: CapabilitiesDto.fromJson(json['capabilities']),
+      role: json['role'],
+    );
   }
 }

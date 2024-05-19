@@ -7,11 +7,7 @@ class ItemDto {
   String id; // ID на гугл диске
   ItemType type; // тип
 
-  ItemDto({
-    required this.name,
-    required this.id,
-    required this.type
-  });
+  ItemDto({required this.name, required this.id, required this.type});
 
   Map<String, dynamic> toJson() {
     return {
@@ -23,5 +19,13 @@ class ItemDto {
 
   String toJsonString() {
     return jsonEncode(toJson());
+  }
+
+  factory ItemDto.fromJson(Map<String, dynamic> json) {
+    return ItemDto(
+      id: json['id'],
+      name: json['name'],
+      type: itemTypeFromString(json['type']),
+    );
   }
 }

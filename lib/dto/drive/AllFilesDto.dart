@@ -21,4 +21,14 @@ class AllFilesDto {
   String toJsonString() {
     return jsonEncode(toJson());
   }
+
+  factory AllFilesDto.fromJson(Map<String, dynamic> json) {
+    var itemList = json['items'] as List;
+    List<ItemDto> items = itemList.map((i) => ItemDto.fromJson(i)).toList();
+
+    return AllFilesDto(
+      nextPage: json['nextPage'],
+      items: items,
+    );
+  }
 }
