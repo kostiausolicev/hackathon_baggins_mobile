@@ -43,7 +43,7 @@ class _AdminPageViewScreenState extends State<AdminPageViewScreen> {
         children: [
           ViewFilesAdmin(AdminPageController: _AdminPageController),
           ViewRoles(AdminPageController: _AdminPageController),
-          CreateRole(AdminPageController: _AdminPageController),
+          ViewUsers(adminPageController: _AdminPageController,),
         ],
       ),
       // Add bottom navigation menu for navigation
