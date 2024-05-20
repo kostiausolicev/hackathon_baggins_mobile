@@ -21,7 +21,7 @@ class ViewFiles extends StatelessWidget {
       // КОНТЕЙНЕР С ФАЙЛАМИ
       body: Column(
         children: [
-          // TO DO: Тут кнопка поиска нужно прикрутить поиск файлов в контейнере по введённым символам
+          // TODO: Тут кнопка поиска нужно прикрутить поиск файлов в контейнере по введённым символам
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -71,7 +71,7 @@ class ViewFiles extends StatelessWidget {
             ),
           ),
 
-          // TO DO: Тут сами файлы нужно считывать нажатия на них.
+          // TODO: Тут сами файлы нужно считывать нажатия на них.
           // По идее при нажатии на файл мы должны его открыть.
           // При нажатии на папку мы открываем её содержимое
           // Пока что мы ссылаемся через Navigator на статическую страницу ViewFolder
@@ -89,7 +89,7 @@ class ViewFiles extends StatelessWidget {
           ),
         ],
       ),
-      // TO DO: Кнопка для создания файла
+      // TODO: Кнопка для создания файла
       floatingActionButton: Container(
         width: 65.0,
         height: 65.0,
@@ -131,7 +131,7 @@ class FileItem extends StatelessWidget {
           Expanded(
             child: isFolder ? GestureDetector( // Обертка в GestureDetector только если это папка
               onTap: () {
-                // TO DO: Нормальную ссылку на содержимое
+                // TODO: Нормальную ссылку на содержимое
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ViewFolder()),
