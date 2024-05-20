@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'ViewRoles.dart';
 import 'CreateRole.dart';
 import 'ViewUsers.dart';
+import 'ViewFilesAdmin.dart';
 
 class AdminBagginsDriveApp extends StatelessWidget {
   @override
@@ -40,9 +41,9 @@ class _AdminPageViewScreenState extends State<AdminPageViewScreen> {
           });
         },
         children: [
+          ViewFilesAdmin(AdminPageController: _AdminPageController),
           ViewRoles(AdminPageController: _AdminPageController),
           CreateRole(AdminPageController: _AdminPageController),
-          ViewUsers(adminPageController: _AdminPageController),
         ],
       ),
       // Add bottom navigation menu for navigation
@@ -62,7 +63,7 @@ class _AdminPageViewScreenState extends State<AdminPageViewScreen> {
               width: 24,
               height: 24,
             ),
-            label: 'Просмотр',
+            label: 'Файлы',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -71,7 +72,7 @@ class _AdminPageViewScreenState extends State<AdminPageViewScreen> {
               width: 24,
               height: 24,
             ),
-            label: 'Создание',
+            label: 'Роли',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
