@@ -1,33 +1,72 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_app/dto/drive/ItemDto.dart';
+import 'package:flutter_app/enum/ItemType.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import '../http/DriveClient.dart';
 import 'ViewFolder.dart';
 import 'CreateFile.dart';
 
+class ViewFiles extends StatefulWidget {
+  @override
+  _ViewFilesState createState() => _ViewFilesState();
+}
 
-class ViewFiles extends StatelessWidget {
+class _ViewFilesState extends State<ViewFiles> {
+  TextEditingController _searchController = TextEditingController();
+  List<ItemDto> _files = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchFiles();
+  }
+
+  Future<void> _fetchFiles() async {
+    try {
+      // Предположим, что getAll возвращает Future<List<dynamic>> с данными о файлах
+      var files = await getAll();
+      setState(() {
+        _files = files.items;
+        _isLoading = false;
+      });
+    } catch (e) {
+      // Обработка ошибки
+      print("Ошибка при получении файлов: $e");
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            'Просмотр',
+          'Просмотр',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         elevation: 0,
       ),
       backgroundColor: Colors.white,
-      // КОНТЕЙНЕР С ФАЙЛАМИ
-      body: Column(
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Column(
         children: [
-          // TO DO: Тут кнопка поиска нужно прикрутить поиск файлов в контейнере по введённым символам
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
+                    controller: _searchController,
                     decoration: InputDecoration(
                       hintText: 'Поиск',
                       prefixIcon: Icon(Icons.search),
@@ -41,7 +80,6 @@ class ViewFiles extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 8),
-                // TO DO: Тут кнопка фильтра, если успеем
                 IconButton(
                   icon: Icon(Icons.filter_list),
                   onPressed: () {},
@@ -50,8 +88,8 @@ class ViewFiles extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: [
                 Expanded(
@@ -70,26 +108,28 @@ class ViewFiles extends StatelessWidget {
               ],
             ),
           ),
-
-          // TO DO: Тут сами файлы нужно считывать нажатия на них.
-          // По идее при нажатии на файл мы должны его открыть.
-          // При нажатии на папку мы открываем её содержимое
-          // Пока что мы ссылаемся через Navigator на статическую страницу ViewFolder
           Expanded(
-            child: ListView(
-              children: [
-                FileItem(iconPath: 'assets/images/folder_icon.svg', name: 'НЕ ТРОГАТЬ ЭТО НА НОВЫЙ ГОД', isFolder: true),
-                FileItem(iconPath: 'assets/images/google_sheets_icon.svg', name: 'Статистика кофеини'),
-                FileItem(iconPath: 'assets/images/file_icon.svg', name: 'file.txt'),
-                FileItem(iconPath: 'assets/images/google_docs_icon.svg', name: 'тезисыФиналТочноФинал(2)'),
-                FileItem(iconPath: 'assets/images/presentation_icon.svg', name: 'Презентация Вред курения'),
-
-              ],
+            child: ListView.builder(
+              itemCount: _files.length,
+              itemBuilder: (context, index) {
+                var file = _files[index];
+                return FileItem(
+                  iconPath: switch (file.type) {
+                    ItemType.FOLDER => 'assets/images/folder_icon.svg',
+                    ItemType.SHEETS => 'assets/images/google_sheets_icon.svg',
+                    ItemType.FILE => 'assets/images/file_icon.svg',
+                    ItemType.DOC => 'assets/images/google_docs_icon.svg',
+                    ItemType.PRESENTATION => 'assets/images/presentation_icon.svg',
+                    _ => throw UnimplementedError()
+                  },
+                  name: file.name,
+                  isFolder: file.type == ItemType.FOLDER,
+                );
+              },
             ),
           ),
         ],
       ),
-      // TO DO: Кнопка для создания файла
       floatingActionButton: Container(
         width: 65.0,
         height: 65.0,
@@ -114,7 +154,7 @@ class FileItem extends StatelessWidget {
   final String name;
   final bool isFolder;
 
-  FileItem({required this.iconPath, required this.name, this.isFolder = false}); // По умолчанию файл не является папкой
+  FileItem({required this.iconPath, required this.name, this.isFolder = false});
 
   @override
   Widget build(BuildContext context) {
@@ -129,16 +169,17 @@ class FileItem extends StatelessWidget {
           ),
           SizedBox(width: 16),
           Expanded(
-            child: isFolder ? GestureDetector( // Обертка в GestureDetector только если это папка
+            child: isFolder
+                ? GestureDetector(
               onTap: () {
-                // TO DO: Нормальную ссылку на содержимое
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ViewFolder()),
                 );
               },
               child: Text(name),
-            ) : Text(name), // Выводим текст без GestureDetector если это не папка
+            )
+                : Text(name),
           ),
         ],
       ),

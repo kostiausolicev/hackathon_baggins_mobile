@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_app/static/UserClass.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -67,6 +68,7 @@ class LoginAccFirst extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_emailController.text.isNotEmpty) {
+                      UserClass.email = _emailController.text;
                       pageController.animateToPage(
                         3, // Индекс страницы, на которую нужно перейти
                         duration: Duration(milliseconds: 500),

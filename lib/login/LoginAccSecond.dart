@@ -6,8 +6,9 @@ import '../static/UserClass.dart';
 
 class LoginAccSecond extends StatefulWidget {
   final PageController pageController;
+  final VoidCallback onAuthSuccess;
 
-  LoginAccSecond({required this.pageController});
+  LoginAccSecond({required this.pageController, required this.onAuthSuccess});
 
   @override
   _LoginAccSecondState createState() => _LoginAccSecondState();
@@ -121,6 +122,7 @@ class _LoginAccSecondState extends State<LoginAccSecond> {
                               password: _passwordController.text);
                           try {
                             await auth(authDto);
+                            widget.onAuthSuccess();
                           } catch (e) {
                             showErrorDialog('Ошибка входа в аккаунт');
                             widget.pageController.animateToPage(

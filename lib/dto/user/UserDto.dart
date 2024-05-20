@@ -40,8 +40,8 @@ class UserDto {
     return UserDto(
       uuid: json['uuid'],
       email: json['email'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
+      firstName: utf8.decode(json['firstName'].codeUnits),
+      lastName: utf8.decode(json['lastName'].codeUnits),
       isConform: json['isConform'],
       capabilities: CapabilitiesDto.fromJson(json['capabilities']),
       role: json['role'],

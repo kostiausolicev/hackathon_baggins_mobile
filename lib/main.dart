@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/static/AppSettings.dart';
+import 'package:flutter_app/user/ViewFiles.dart';
 
 import 'register/SignUpAccFirst.dart';
 import 'register/SignUpAccSecond.dart';
@@ -32,8 +34,28 @@ class _PageViewScreenState extends State<PageViewScreen> {
   PageController _pageController = PageController();
   int _currentPageIndex = 0;
 
+  void _updateState() {
+    setState(() {});
+    _pageController.animateToPage(
+      0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final children = Settings.token == null
+        ? [
+            SignUpAccFirst(pageController: _pageController),
+            SignUpAccSecond(pageController: _pageController),
+            LoginAccFirst(pageController: _pageController),
+            LoginAccSecond(
+                pageController: _pageController, onAuthSuccess: _updateState)
+          ]
+        : [
+            ViewFiles(),
+          ];
     return Scaffold(
       body: PageView(
         controller: _pageController,
@@ -42,12 +64,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
             _currentPageIndex = index;
           });
         },
-        children: [
-          SignUpAccFirst(pageController: _pageController),
-          SignUpAccSecond(pageController: _pageController),
-          LoginAccFirst(pageController: _pageController),
-          LoginAccSecond(pageController: _pageController),
-        ],
+        children: children,
       ),
     );
   }
