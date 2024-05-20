@@ -40,8 +40,8 @@ class _AdminPageViewScreenState extends State<AdminPageViewScreen> {
           });
         },
         children: [
-          CreateRole(AdminPageController: _AdminPageController),
           ViewRoles(AdminPageController: _AdminPageController),
+          CreateRole(AdminPageController: _AdminPageController),
           ViewUsers(AdminPageController: _AdminPageController),
         ],
       ),

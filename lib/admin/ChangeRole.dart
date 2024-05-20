@@ -7,7 +7,10 @@ class ChangeRole extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ChangeRole'),
+        title: Text('Изменить роль',style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        ),
       ),
       body: Center(
         child: Text('ChangeRole'),
