@@ -12,6 +12,7 @@ class ViewFiles extends StatefulWidget {
 }
 
 class _ViewFilesState extends State<ViewFiles> {
+  late List<String> _previousStack;
   TextEditingController _searchController = TextEditingController();
   List<ItemDto> _files = [];
   bool _isLoading = true;
@@ -19,13 +20,34 @@ class _ViewFilesState extends State<ViewFiles> {
   @override
   void initState() {
     super.initState();
+    _previousStack = [];
     _fetchFiles();
   }
 
-  Future<void> _fetchFiles() async {
+  void _returnBack() {
+    if (_previousStack.isNotEmpty) {
+      setState(() {
+        _isLoading = false;
+        _previousStack.removeLast();
+      });
+      String? previousFolderId =
+          _previousStack.isNotEmpty ? _previousStack.last : null;
+      _fetchFiles(previousFolderId);
+    }
+  }
+
+  void _openFolder(FileItem item) {
+    setState(() {
+      _isLoading = false;
+      _previousStack.add(item.id);
+    });
+    _fetchFiles(item.id);
+  }
+
+  Future<void> _fetchFiles([String? id]) async {
     try {
       // Предположим, что getAll возвращает Future<List<dynamic>> с данными о файлах
-      var files = await getAll();
+      var files = await getAll(folderId: id);
       setState(() {
         _files = files.items;
         _isLoading = false;
@@ -61,89 +83,100 @@ class _ViewFilesState extends State<ViewFiles> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Column(
-        children: [
-          // TODO: Тут кнопка поиска нужно прикрутить поиск файлов в контейнере по введённым символам
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
               children: [
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Поиск',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(
-                            color: Color(0xFFE4E4E4), width: 1.0),
+                // TODO: Тут кнопка поиска нужно прикрутить поиск файлов в контейнере по введённым символам
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _returnBack(); // Вызываем метод возврата назад
+                        },
+                        child: Icon(Icons.arrow_back,
+                            color: Colors.black), // Иконка кнопки "назад"
                       ),
-                      filled: false,
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
-                    ),
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          decoration: InputDecoration(
+                            hintText: 'Поиск',
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide(
+                                color: Color(0xFFE4E4E4),
+                                width: 1.0,
+                              ),
+                            ),
+                            filled: false,
+                            contentPadding: EdgeInsets.symmetric(vertical: 0),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      IconButton(
+                        icon: Icon(Icons.filter_list),
+                        onPressed: () {},
+                        color: Color(0xFFA82230),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(width: 8),
-                IconButton(
-                  icon: Icon(Icons.filter_list),
-                  onPressed: () {},
-                  color: Color(0xFFA82230),
-                ),
-              ],
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Тип',
-                    style: TextStyle(color: Colors.grey),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Тип',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 12,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Название',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Expanded(
-                  flex: 12,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Название',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
 
-          // TODO: Тут сами файлы нужно считывать нажатия на них.
-          // По идее при нажатии на файл мы должны его открыть.
-          // При нажатии на папку мы открываем её содержимое
-          // Пока что мы ссылаемся через Navigator на статическую страницу ViewFolder
-          Expanded(
-            child: ListView.builder(
-              itemCount: _files.length,
-              itemBuilder: (context, index) {
-                var file = _files[index];
-                return FileItem(
-                  iconPath: switch (file.type) {
-                    ItemType.FOLDER => 'assets/images/folder_icon.svg',
-                    ItemType.SHEETS =>
-                    'assets/images/google_sheets_icon.svg',
-                    ItemType.FILE => 'assets/images/file_icon.svg',
-                    ItemType.DOC => 'assets/images/google_docs_icon.svg',
-                    ItemType.PRESENTATION =>
-                    'assets/images/presentation_icon.svg',
-                    _ => throw UnimplementedError()
-                  },
-                  name: file.name,
-                  isFolder: file.type == ItemType.FOLDER,
-                );
-              },
+                // TODO: Тут сами файлы нужно считывать нажатия на них.
+                // По идее при нажатии на файл мы должны его открыть.
+                // При нажатии на папку мы открываем её содержимое
+                // Пока что мы ссылаемся через Navigator на статическую страницу ViewFolder
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _files.length,
+                    itemBuilder: (context, index) {
+                      var file = _files[index];
+                      return FileItem(
+                        iconPath: switch (file.type) {
+                          ItemType.FOLDER => 'assets/images/folder_icon.svg',
+                          ItemType.SHEETS =>
+                            'assets/images/google_sheets_icon.svg',
+                          ItemType.FILE => 'assets/images/file_icon.svg',
+                          ItemType.DOC => 'assets/images/google_docs_icon.svg',
+                          ItemType.PRESENTATION =>
+                            'assets/images/presentation_icon.svg',
+                          _ => throw UnimplementedError()
+                        },
+                        state: this,
+                        id: file.id,
+                        name: file.name,
+                        isFolder: file.type == ItemType.FOLDER,
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
       // TODO: Кнопка для создания файла
       floatingActionButton: Container(
         width: 65.0,
@@ -165,11 +198,18 @@ class _ViewFilesState extends State<ViewFiles> {
 }
 
 class FileItem extends StatelessWidget {
+  final _ViewFilesState state;
   final String iconPath;
   final String name;
+  final String id;
   final bool isFolder;
 
-  FileItem({required this.iconPath, required this.name, this.isFolder = false});
+  FileItem(
+      {required this.iconPath,
+      required this.name,
+      this.isFolder = false,
+      required this.id,
+      required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -186,15 +226,11 @@ class FileItem extends StatelessWidget {
           Expanded(
             child: isFolder
                 ? GestureDetector(
-              onTap: () {
-                // TODO: Нормальную ссылку на содержимое
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ViewFolder()),
-                );
-              },
-              child: Text(name),
-            )
+                    onTap: () {
+                      state._openFolder(this);
+                    },
+                    child: Text(name),
+                  )
                 : Text(name),
           ),
         ],
