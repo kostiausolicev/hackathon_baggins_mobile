@@ -60,6 +60,7 @@ class _ViewFilesState extends State<ViewFiles> {
           ? Center(child: CircularProgressIndicator())
           : Column(
         children: [
+          // TODO: Тут кнопка поиска нужно прикрутить поиск файлов в контейнере по введённым символам
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -108,6 +109,11 @@ class _ViewFilesState extends State<ViewFiles> {
               ],
             ),
           ),
+
+          // TODO: Тут сами файлы нужно считывать нажатия на них.
+          // По идее при нажатии на файл мы должны его открыть.
+          // При нажатии на папку мы открываем её содержимое
+          // Пока что мы ссылаемся через Navigator на статическую страницу ViewFolder
           Expanded(
             child: ListView.builder(
               itemCount: _files.length,
@@ -130,6 +136,7 @@ class _ViewFilesState extends State<ViewFiles> {
           ),
         ],
       ),
+      // TODO: Кнопка для создания файла
       floatingActionButton: Container(
         width: 65.0,
         height: 65.0,
@@ -172,6 +179,7 @@ class FileItem extends StatelessWidget {
             child: isFolder
                 ? GestureDetector(
               onTap: () {
+                // TODO: Нормальную ссылку на содержимое
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ViewFolder()),

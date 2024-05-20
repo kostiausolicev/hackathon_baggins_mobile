@@ -7,6 +7,8 @@ import 'register/SignUpAccSecond.dart';
 import 'login/LoginAccFirst.dart';
 import 'login/LoginAccSecond.dart';
 
+import 'admin/mainAdmin.dart';
+
 void main() {
   runApp(BagginsDriveApp());
 }
@@ -21,6 +23,7 @@ class BagginsDriveApp extends StatelessWidget {
         primarySwatch: Colors.red,
       ),
       home: PageViewScreen(),
+      //home: AdminBagginsDriveApp(),
     );
   }
 }
