@@ -100,22 +100,6 @@ class ViewRoles extends StatelessWidget {
           ),*/
         ],
       ),
-      // TODO: Кнопка для создания файла
-      floatingActionButton: Container(
-        width: 65.0,
-        height: 65.0,
-        child: FloatingActionButton(
-          onPressed: () {
-            /*Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CreateFile()),
-            );*/
-          },
-          child: Icon(Icons.add),
-          backgroundColor: Color(0xFFA82230),
-          foregroundColor: Colors.white,
-        ),
-      ),
     );
   }
 }
