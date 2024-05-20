@@ -24,7 +24,7 @@ class ItemDto {
   factory ItemDto.fromJson(Map<String, dynamic> json) {
     return ItemDto(
       id: json['id'],
-      name: json['name'],
+      name: utf8.decode(json['name'].codeUnits),
       type: itemTypeFromString(json['type']),
     );
   }

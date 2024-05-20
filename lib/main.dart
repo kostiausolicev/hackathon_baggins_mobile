@@ -1,69 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/static/AppSettings.dart';
+import 'package:flutter_app/user/ViewFiles.dart';
+
+import 'register/SignUpAccFirst.dart';
+import 'register/SignUpAccSecond.dart';
+import 'login/LoginAccFirst.dart';
+import 'login/LoginAccSecond.dart';
+
+import 'admin/mainAdmin.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(BagginsDriveApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class BagginsDriveApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Baggins Drive',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.red,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: PageViewScreen(),
+      //home: AdminBagginsDriveApp(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
+class PageViewScreen extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _PageViewScreenState createState() => _PageViewScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _PageViewScreenState extends State<PageViewScreen> {
+  PageController _pageController = PageController();
+  int _currentPageIndex = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _updateState() {
+    setState(() {});
+    _pageController.animateToPage(
+      0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final children = Settings.token == null
+        ? [
+            SignUpAccFirst(pageController: _pageController),
+            SignUpAccSecond(pageController: _pageController),
+            LoginAccFirst(pageController: _pageController),
+            LoginAccSecond(
+                pageController: _pageController, onAuthSuccess: _updateState),
+          ]
+        : (Settings.role == "USER"
+            ? [
+                ViewFiles(),
+              ]
+            : [
+                AdminBagginsDriveApp(),
+              ]);
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _currentPageIndex = index;
+          });
+        },
+        children: children,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

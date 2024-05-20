@@ -17,7 +17,7 @@ class CreateItemDto {
     return {
       'name': name,
       'parent': parent,
-      'type': type
+      'type': type.name
     };
   }
 

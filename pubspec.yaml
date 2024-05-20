@@ -32,7 +32,8 @@ dependencies:
   json_annotation: ^4.4.0
   flutter:
     sdk: flutter
-
+  url_launcher: ^6.0.9
+  flutter_svg: ^0.22.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -61,8 +62,21 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/background 1.png
+    - assets/images/background 2.png
+    - assets/images/background 3.png
+    - assets/images/background 4.png
+    - assets/images/google_icon.svg
+    - assets/images/file_icon.svg
+    - assets/images/folder_icon.svg
+    - assets/images/google_docs_icon.svg
+    - assets/images/google_sheets_icon.svg
+    - assets/images/presentation_icon.svg
+    - assets/images/three_dots_icon.svg
+    - assets/images/search_icon.svg
+    - assets/images/brush_icon.svg
+    - assets/images/user_icon.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

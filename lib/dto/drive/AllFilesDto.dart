@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'ItemDto.dart';
 // Список файлов
 class AllFilesDto {
-  String nextPage;
+  String? nextPage;
   List<ItemDto> items; // Сами файлы
 
   AllFilesDto({
