@@ -11,7 +11,7 @@ class ProfileUser extends StatelessWidget {
     return Scaffold(
       //TODO: всталять переменную  firstname
       appBar: AppBar(
-        title: Text('Михаил Палыч'style: TextStyle(
+        title: Text('Михаил Палыч',style: TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),
