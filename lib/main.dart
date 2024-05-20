@@ -54,11 +54,16 @@ class _PageViewScreenState extends State<PageViewScreen> {
             SignUpAccSecond(pageController: _pageController),
             LoginAccFirst(pageController: _pageController),
             LoginAccSecond(
-                pageController: _pageController, onAuthSuccess: _updateState)
+                pageController: _pageController, onAuthSuccess: _updateState),
           ]
-        : [
-            ViewFiles(),
-          ];
+        : (Settings.role == "USER"
+            ? [
+                ViewFiles(),
+              ]
+            : [
+                AdminBagginsDriveApp(),
+              ]);
+
     return Scaffold(
       body: PageView(
         controller: _pageController,
