@@ -4,6 +4,7 @@ import 'package:flutter_app/enum/ItemType.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../http/DriveClient.dart';
 import 'CreateFile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewFiles extends StatefulWidget {
   @override
@@ -21,6 +22,34 @@ class _ViewFilesState extends State<ViewFiles> {
     super.initState();
     _previousStack = [];
     _fetchFiles();
+  }
+
+  void showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Ошибка'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text('ОК'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _openLink(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   void _returnBack() {
@@ -234,7 +263,17 @@ class FileItem extends StatelessWidget {
                     },
                     child: Text(name),
                   )
-                : Text(name),
+                : GestureDetector(
+                    onTap: () async {
+                      try {
+                        var url = await openFile(fileId: this.id);
+                        state._openLink(url);
+                      } catch (e) {
+                        state.showErrorDialog('Ошибка открытия файла');
+                      }
+                    },
+                    child: Text(name),
+                  ),
           ),
         ],
       ),
