@@ -74,6 +74,9 @@ flutter:
     - assets/images/google_sheets_icon.svg
     - assets/images/presentation_icon.svg
     - assets/images/three_dots_icon.svg
+    - assets/images/search_icon.svg
+    - assets/images/brush_icon.svg
+    - assets/images/user_icon.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
