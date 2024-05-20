@@ -11,7 +11,10 @@ class CreateRole extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CreateRole'),
+        title: Text('Создать роль',style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        ),
       ),
       body: Center(
         child: Text('CreateRole'),
