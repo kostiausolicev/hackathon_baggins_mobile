@@ -11,7 +11,8 @@ import '../static/AppSettings.dart';
 
 const String baseUrl = '${HttpStatic.url}:${HttpStatic.port}/drive';
 
-Future<AllFilesDto> getAll({int limit = 10, String? pageToken, String? folderId}) async {
+Future<AllFilesDto> getAll(
+    {int limit = 10, String? pageToken, String? folderId}) async {
   final path = folderId == null ? baseUrl : "$baseUrl/$folderId";
   final url = Uri.parse(path).replace(queryParameters: {
     'limit': '$limit',
@@ -28,6 +29,30 @@ Future<AllFilesDto> getAll({int limit = 10, String? pageToken, String? folderId}
   if (response.statusCode == 200) {
     var body = response.body;
     return AllFilesDto.fromJson(jsonDecode(body));
+  } else if (response.statusCode == 401) {
+    Settings.token = null;
+    throw UnauthorizedException();
+  } else if (response.statusCode == 403) {
+    throw ForbiddenException();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<String> openFile({required String fileId}) async {
+  final path = "$baseUrl/open/$fileId";
+  final url = Uri.parse(path);
+  final token = Settings.token ?? (throw Exception('Token not found'));
+  final response = await http.get(
+    url,
+    headers: {
+      'Authorization': "Bearer $token",
+    },
+  );
+
+  if (response.statusCode == 200) {
+    var body = response.body;
+    return body;
   } else if (response.statusCode == 401) {
     Settings.token = null;
     throw UnauthorizedException();
