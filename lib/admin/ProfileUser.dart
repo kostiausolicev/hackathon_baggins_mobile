@@ -91,7 +91,7 @@ class ProfileUser extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ViewUsers(AdminPageController: AdminPageController)),
+                        MaterialPageRoute(builder: (context) => ViewUsers(adminPageController: AdminPageController)),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -114,7 +114,7 @@ class ProfileUser extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ViewUsers(AdminPageController: AdminPageController)),
+                        MaterialPageRoute(builder: (context) => ViewUsers(adminPageController: AdminPageController)),
                       );
                     },
                     style: ElevatedButton.styleFrom(

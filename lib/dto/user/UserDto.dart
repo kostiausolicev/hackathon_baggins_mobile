@@ -8,8 +8,8 @@ class UserDto {
   String firstName;
   String lastName;
   bool isConform;
-  CapabilitiesDto capabilities; // Доступы
-  String role; // Роль USER/ADMIN
+  CapabilitiesDto? capabilities; // Доступы
+  String? role; // Роль USER/ADMIN
 
   UserDto(
       {required this.uuid,
@@ -43,7 +43,7 @@ class UserDto {
       firstName: utf8.decode(json['firstName'].codeUnits),
       lastName: utf8.decode(json['lastName'].codeUnits),
       isConform: json['isConform'],
-      capabilities: CapabilitiesDto.fromJson(json['capabilities']),
+      capabilities: json['capabilities'] != null ? CapabilitiesDto.fromJson(json['capabilities']) : null,
       role: json['role'],
     );
   }
