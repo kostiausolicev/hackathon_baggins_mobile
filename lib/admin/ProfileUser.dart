@@ -9,8 +9,12 @@ class ProfileUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //TODO: всталять переменную  firstname
       appBar: AppBar(
-        title: Text('Михаил Палыч'),
+        title: Text('Михаил Палыч'style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       ),
       body: Stack(
         children: [

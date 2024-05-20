@@ -13,7 +13,10 @@ class ViewFiles extends StatelessWidget {
       appBar: AppBar(
         title: Text(
             'Просмотр',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(
+
+              fontWeight: FontWeight.bold,
+            ),
         ),
         elevation: 0,
       ),

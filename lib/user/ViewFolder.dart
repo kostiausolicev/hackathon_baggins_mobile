@@ -7,7 +7,11 @@ class ViewFolder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('View Folder'),
+        title: Text('View Folder',
+          style: TextStyle(
+
+          fontWeight: FontWeight.bold,
+        ),),
       ),
       body: Center(
         child: Text('This is the content of the folder.'),
