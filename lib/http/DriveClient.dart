@@ -41,6 +41,7 @@ Future<AllFilesDto> getAll({int limit = 10, String? pageToken, String? folderId}
 Future<http.Response> create(CreateItemDto createItemDto) async {
   final url = Uri.parse(baseUrl);
   final token = Settings.token ?? (throw Exception('Token not found'));
+  print("start");
   final response = await http.post(
     url,
     headers: {
@@ -49,6 +50,7 @@ Future<http.Response> create(CreateItemDto createItemDto) async {
     },
     body: createItemDto.toJsonString(),
   );
+  print("finish");
 
   if (response.statusCode == 200) {
     return response;

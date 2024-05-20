@@ -3,7 +3,6 @@ import 'package:flutter_app/dto/drive/ItemDto.dart';
 import 'package:flutter_app/enum/ItemType.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../http/DriveClient.dart';
-import 'ViewFolder.dart';
 import 'CreateFile.dart';
 
 class ViewFiles extends StatefulWidget {
@@ -183,10 +182,14 @@ class _ViewFilesState extends State<ViewFiles> {
         height: 65.0,
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CreateFile()),
-            );
+            if (_previousStack.length > 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        CreateFile(parent: _previousStack.last)),
+              );
+            }
           },
           child: Icon(Icons.add),
           backgroundColor: Color(0xFFA82230),

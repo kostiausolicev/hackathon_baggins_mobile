@@ -1,8 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'ViewFiles.dart';
+import 'package:flutter_app/dto/drive/CreateItemDto.dart';
+import 'package:flutter_app/http/DriveClient.dart';
+import 'package:flutter_svg/svg.dart';
 
-class CreateFile extends StatelessWidget {
+import '../enum/ItemType.dart';
+
+class CreateFile extends StatefulWidget {
+  final String parent;
+
+  const CreateFile({Key? key, required this.parent}) : super(key: key);
+
+  @override
+  _CreateFileState createState() => _CreateFileState();
+}
+
+class _CreateFileState extends State<CreateFile> {
+  final TextEditingController _nameController = TextEditingController();
+  ItemType? _selectedItemType;
+
+  void showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Ошибка'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text('ОК'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +59,7 @@ class CreateFile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 16), // Отступ сверху
+                  const SizedBox(height: 16),
                   Container(
                     width: MediaQuery.of(context).size.width - 48,
                     decoration: BoxDecoration(
@@ -37,7 +72,7 @@ class CreateFile extends StatelessWidget {
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: TextField(
-                      // TODO: Контроллер засунь на считывание имени папки
+                      controller: _nameController,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Имя',
@@ -56,32 +91,32 @@ class CreateFile extends StatelessWidget {
                       ),
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    // TODO: выбор элементов combobox
-                    child: DropdownButtonFormField<String>(
+                    child: DropdownButtonFormField<ItemType>(
+                      value: _selectedItemType,
+                      onChanged: (ItemType? newValue) {
+                        setState(() {
+                          _selectedItemType = newValue;
+                        });
+                      },
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                       ),
-                      hint: Text('Папка'),
-                      value: null, // Значение выбранного элемента
-                      icon: Icon(Icons.arrow_drop_down_rounded), // Иконка открытия списка
-                      iconSize: 32, // Размер иконки
-                      isExpanded: true, // Расширение комбо-бокса по ширине
-                      onChanged: (String? newValue) {
-                        // Обработчик изменения выбранного элемента
-                      },
-                      items: <String>['Google doc', 'Google sheet', 'Папка', 'Презентация', 'Текстовый файл']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
+                      hint: Text(ItemType.FOLDER.toString()),
+                      icon: Icon(Icons.arrow_drop_down_rounded),
+                      iconSize: 32,
+                      isExpanded: true,
+                      items: ItemType.values.map((ItemType itemType) {
+                        return DropdownMenuItem<ItemType>(
+                          value: itemType,
                           child: Row(
                             children: [
                               SvgPicture.asset(
-                                'assets/images/folder_icon.svg', // путь к вашему файлу SVG
-                                width: 24, // задайте желаемую ширину иконки
-                                height: 24, // задайте желаемую высоту иконки
+                                'assets/images/folder_icon.svg',
+                                width: 24,
+                                height: 24,
                               ),
                               const SizedBox(width: 8),
-                              Text(value),
+                              Text(itemType.toString().split('.').last),
                             ],
                           ),
                         );
@@ -99,16 +134,12 @@ class CreateFile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // TODO: логика отклонения
                 SizedBox(
                   height: 65,
                   width: 165,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ViewFiles()),
-                      );
+                      Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFE4E4E4),
@@ -121,16 +152,25 @@ class CreateFile extends StatelessWidget {
                     child: const Text('Отмена'),
                   ),
                 ),
-                // TODO: логика подтверждения
                 SizedBox(
                   height: 65,
                   width: 165,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ViewFiles()),
-                      );
+                    onPressed: () async {
+                      if (_nameController.text.isNotEmpty &&
+                          _selectedItemType != null) {
+                        final dto = CreateItemDto(
+                          name: _nameController.text,
+                          parent: widget.parent,
+                          type: _selectedItemType ?? ItemType.UNKNOWN,
+                        );
+                        try {
+                          await create(dto);
+                        } catch (e) {
+                          showErrorDialog('Ошибка входа в аккаунт');
+                        }
+                        Navigator.pop(context);
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFA82230),
