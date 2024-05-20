@@ -99,6 +99,25 @@ class ViewRoles extends StatelessWidget {
           ),*/
         ],
       ),
+      floatingActionButton: Container(
+        width: 65.0,
+        height: 65.0,
+        child: FloatingActionButton(
+          onPressed: () {
+            //if (_previousStack.length > 0) {
+             // Navigator.push(
+               // context,
+               // MaterialPageRoute(
+                   // builder: (context) =>
+                        //CreateFile(parent: _previousStack.last)),
+             // );
+            //}
+          },
+          child: Icon(Icons.add),
+          backgroundColor: Color(0xFFA82230),
+          foregroundColor: Colors.white,
+        ),
+      ),
     );
   }
 }
