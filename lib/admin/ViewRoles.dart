@@ -59,7 +59,6 @@ class ViewRoles extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  flex: 12,
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(

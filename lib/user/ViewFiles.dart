@@ -127,14 +127,14 @@ class _ViewFilesState extends State<ViewFiles> {
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
                     children: [
-                      Expanded(
+                      SizedBox(
+                        width: 50, // Занимает 50 пикселей слева
                         child: Text(
                           'Тип',
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
                       Expanded(
-                        flex: 12,
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(

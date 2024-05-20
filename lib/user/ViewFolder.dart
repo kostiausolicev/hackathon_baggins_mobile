@@ -97,14 +97,14 @@ class _ViewFolderState extends State<ViewFolder> {
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: [
-                Expanded(
+                SizedBox(
+                  width: 50, // Занимает 50 пикселей слева
                   child: Text(
                     'Тип',
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
                 Expanded(
-                  flex: 12,
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -196,21 +196,6 @@ class _ViewFolderState extends State<ViewFolder> {
         ],
       ),
       // TODO: Кнопка для создания файла
-      floatingActionButton: Container(
-        width: 65.0,
-        height: 65.0,
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CreateFile()),
-            );
-          },
-          child: Icon(Icons.add),
-          backgroundColor: Color(0xFFA82230),
-          foregroundColor: Colors.white,
-        ),
-      ),
     );
   }
 }
