@@ -50,10 +50,10 @@ class _ViewFilesState extends State<ViewFiles> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            'Просмотр',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+          'Просмотр',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         elevation: 0,
       ),
@@ -75,7 +75,8 @@ class _ViewFilesState extends State<ViewFiles> {
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(color: Color(0xFFE4E4E4), width: 1.0),
+                        borderSide: BorderSide(
+                            color: Color(0xFFE4E4E4), width: 1.0),
                       ),
                       filled: false,
                       contentPadding: EdgeInsets.symmetric(vertical: 0),
@@ -102,10 +103,13 @@ class _ViewFilesState extends State<ViewFiles> {
                   ),
                 ),
                 Expanded(
-                  flex: 6,
-                  child: Text(
-                    'Название',
-                    style: TextStyle(color: Colors.grey),
+                  flex: 12,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Название',
+                      style: TextStyle(color: Colors.grey),
+                    ),
                   ),
                 ),
               ],
@@ -124,10 +128,12 @@ class _ViewFilesState extends State<ViewFiles> {
                 return FileItem(
                   iconPath: switch (file.type) {
                     ItemType.FOLDER => 'assets/images/folder_icon.svg',
-                    ItemType.SHEETS => 'assets/images/google_sheets_icon.svg',
+                    ItemType.SHEETS =>
+                    'assets/images/google_sheets_icon.svg',
                     ItemType.FILE => 'assets/images/file_icon.svg',
                     ItemType.DOC => 'assets/images/google_docs_icon.svg',
-                    ItemType.PRESENTATION => 'assets/images/presentation_icon.svg',
+                    ItemType.PRESENTATION =>
+                    'assets/images/presentation_icon.svg',
                     _ => throw UnimplementedError()
                   },
                   name: file.name,
