@@ -21,12 +21,13 @@ Future<AllFilesDto> getAll({int limit = 10, String? pageToken, String? folderId}
   final response = await http.get(
     url,
     headers: {
-      'Authorization': "Bearer$token",
+      'Authorization': "Bearer $token",
     },
   );
 
   if (response.statusCode == 200) {
-    return AllFilesDto.fromJson(jsonDecode(response.body));
+    var body = response.body;
+    return AllFilesDto.fromJson(jsonDecode(body));
   } else if (response.statusCode == 401) {
     Settings.token = null;
     throw UnauthorizedException();
@@ -43,7 +44,7 @@ Future<http.Response> create(CreateItemDto createItemDto) async {
   final response = await http.post(
     url,
     headers: {
-      'Authorization': "Bearer$token",
+      'Authorization': "Bearer $token",
       'Content-Type': 'application/json',
     },
     body: createItemDto.toJsonString(),
